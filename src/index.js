@@ -5,14 +5,15 @@
 
 console.log('Happy hacking :)')
 
-var cityName = 'Bogota';
+// var cityName = 'Bogota';
+// var cityWanted;
 const limit = 5;
 const APIkey = '0393447d970cee9070f71962da578e9f';
 var latitude;
 var longitude;
 
 
-const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=${limit}&appid=${APIkey}`;
+// const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
 
 
 const citiesContainer = document.getElementById("citiesContainer");
@@ -20,11 +21,46 @@ citiesContainer.style.display = "flex";
 citiesContainer.style.flexWrap = "wrap";
 citiesContainer.style.justifyContent = "center";
 
-    
 
-fetch(geoUrl)
+const form = document.getElementById('form');
+const cityEntered = document.getElementById('city');
+const submitCity = document.getElementById('submitCity');
+
+var arrayCity = [];
+
+submitCity.addEventListener('click', () =>
+{
+    const cityWanted = arrayCity.join('');
+    console.log(cityWanted);
+    const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
+    searchWeather(geoUrl);
+    arrayCity = [];
+});
+
+cityEntered.addEventListener('input', event => {
+    if(event.inputType === "insertText"){
+        arrayCity.push(event.data);
+    }    
+    else {
+        arrayCity.pop();
+    }
+    console.log(arrayCity);
+} )
+
+
+
+
+// searchWeather(geoUrl);
+
+
+
+
+function searchWeather(geoUrl){
+    fetch(geoUrl)
     .then(response => response.json())
     .then(responseJson => {
+        console.log(citiesContainer)
+
         const todosLosItems = [];
         responseJson.forEach(city => {
 
@@ -54,8 +90,12 @@ fetch(geoUrl)
             if(!!city.state){
                 cityState.innerHTML = `${city.state}`;
             }
-            console.log(`${city.name}, ${city.country}: `);
+            // console.log(`${city.name}, ${city.country}: `);
             const latitude = city.lat;
+            const citiesContainer = document.getElementById("citiesContainer");
+            citiesContainer.style.display = "flex";
+            citiesContainer.style.flexWrap = "wrap";
+            citiesContainer.style.justifyContent = "center";
             const longitude = city.lon;  
             const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIkey}`;
             fetch(weatherUrl)
@@ -64,13 +104,16 @@ fetch(geoUrl)
                     cityTemp.innerHTML = `Temp: ${weatherJson.main.temp}`;
                     weatherImg.src = `http://openweathermap.org/img/wn/${weatherJson.weather[0].icon}@2x.png`
                     weatherDesc.innerHTML = `${weatherJson.weather[0].description}`;
-                    console.log(`Temp: ${weatherJson.main.temp}`);
+                    // console.log(`Temp: ${weatherJson.main.temp}`);
                     // console.log('weatherJson', weatherJson);
                 });    
             todosLosItems.push(cityContainer);
                 // .then(weatherJson => console.log(weatherJson));   
-                console.log(city);     
+                // console.log(city);     
         });
         citiesContainer.append(...todosLosItems);
     })
+
+}
+
 
