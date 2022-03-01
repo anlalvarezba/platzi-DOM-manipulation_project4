@@ -10,47 +10,31 @@ const APIkey = '0393447d970cee9070f71962da578e9f';
 var latitude;
 var longitude;
 
-
- //HACE FALTA: que al autocompletar con las sugerencias funcione.
-
 const citiesMain = document.getElementById("citiesMain");
-
-
 const form = document.getElementById('form');
 const cityEntered = document.getElementById('city');
 const submitCity = document.getElementById('submitCity');
 
-var arrayCity = [];
 
-submitCity.addEventListener('click', handleSearch);
+submitCity.addEventListener('click', () => {
+    const cityFunction = cityEntered.value;
+    handleSearch(cityFunction)
+});
+
 cityEntered.addEventListener('keyup', (event) => {
     if(event.keyCode === 13){
-        handleSearch();
+        const cityFunction = cityEntered.value;
+        handleSearch(cityFunction);
     }
 });
 
 
-function handleSearch(){
-    const cityWanted = arrayCity.join('');
-    console.log(cityWanted);
+function handleSearch(cityWanted){
     const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
-    city.value = '';
+    cityEntered.value = '';
     citiesMain.innerHTML = '';
     searchWeather(geoUrl);
-    arrayCity = [];
 }
-
-
-
-cityEntered.addEventListener('input', event => {
-    if(event.inputType === "insertText"){
-        arrayCity.push(event.data);
-    }    
-    else {
-        arrayCity.pop();
-    }
-    console.log(arrayCity);
-} )
 
 
 function searchWeather(geoUrl){
