@@ -44,7 +44,7 @@ cityEntered.addEventListener('keyup', (event) => {
 
 
 function handleSearch(cityWanted){
-    const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
     cityEntered.value = '';
     citiesMain.innerHTML = '';
     searchWeather(geoUrl);
@@ -92,12 +92,12 @@ function searchWeather(geoUrl){
             }
             const latitude = city.lat;
             const longitude = city.lon;  
-            const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIkey}`;
+            const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIkey}`;
             fetch(weatherUrl)
                 .then(weatherResponse => weatherResponse.json())
                 .then(weatherJson => {
                     cityTemp.innerHTML = `Temp: ${weatherJson.main.temp} °C`;
-                    weatherImg.src = `http://openweathermap.org/img/wn/${weatherJson.weather[0].icon}@2x.png`
+                    weatherImg.src = `https://openweathermap.org/img/wn/${weatherJson.weather[0].icon}@2x.png`
                     weatherDesc.innerHTML = `${weatherJson.weather[0].description}`;
                 });    
             todosLosItems.push(cityContainer);
