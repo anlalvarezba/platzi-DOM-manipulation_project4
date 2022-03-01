@@ -1,4 +1,7 @@
 {
+  "homepage": {
+    "https://anlalvarezba.github.io/platzi-DOM-manipulation_project4"
+  },
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
