@@ -5,21 +5,15 @@
 
 console.log('Happy hacking :)')
 
-// var cityName = 'Bogota';
-// var cityWanted;
 const limit = 5;
 const APIkey = '0393447d970cee9070f71962da578e9f';
 var latitude;
 var longitude;
 
 
-// const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
+ //HACE FALTA: que al autocompletar con las sugerencias funcione.
 
-
-const citiesContainer = document.getElementById("citiesContainer");
-citiesContainer.style.display = "flex";
-citiesContainer.style.flexWrap = "wrap";
-citiesContainer.style.justifyContent = "center";
+const citiesMain = document.getElementById("citiesMain");
 
 
 const form = document.getElementById('form');
@@ -28,14 +22,25 @@ const submitCity = document.getElementById('submitCity');
 
 var arrayCity = [];
 
-submitCity.addEventListener('click', () =>
-{
+submitCity.addEventListener('click', handleSearch);
+cityEntered.addEventListener('keyup', (event) => {
+    if(event.keyCode === 13){
+        handleSearch();
+    }
+});
+
+
+function handleSearch(){
     const cityWanted = arrayCity.join('');
     console.log(cityWanted);
     const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityWanted}&limit=${limit}&appid=${APIkey}`;
+    city.value = '';
+    citiesMain.innerHTML = '';
     searchWeather(geoUrl);
     arrayCity = [];
-});
+}
+
+
 
 cityEntered.addEventListener('input', event => {
     if(event.inputType === "insertText"){
@@ -48,18 +53,15 @@ cityEntered.addEventListener('input', event => {
 } )
 
 
-
-
-// searchWeather(geoUrl);
-
-
-
-
 function searchWeather(geoUrl){
     fetch(geoUrl)
     .then(response => response.json())
     .then(responseJson => {
-        console.log(citiesContainer)
+        
+        const citiesContainer = document.createElement('div');
+        citiesContainer.style.display = "flex";
+        citiesContainer.style.flexWrap = "wrap";
+        citiesContainer.style.justifyContent = "center";
 
         const todosLosItems = [];
         responseJson.forEach(city => {
@@ -90,12 +92,7 @@ function searchWeather(geoUrl){
             if(!!city.state){
                 cityState.innerHTML = `${city.state}`;
             }
-            // console.log(`${city.name}, ${city.country}: `);
             const latitude = city.lat;
-            const citiesContainer = document.getElementById("citiesContainer");
-            citiesContainer.style.display = "flex";
-            citiesContainer.style.flexWrap = "wrap";
-            citiesContainer.style.justifyContent = "center";
             const longitude = city.lon;  
             const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${APIkey}`;
             fetch(weatherUrl)
@@ -104,16 +101,12 @@ function searchWeather(geoUrl){
                     cityTemp.innerHTML = `Temp: ${weatherJson.main.temp}`;
                     weatherImg.src = `http://openweathermap.org/img/wn/${weatherJson.weather[0].icon}@2x.png`
                     weatherDesc.innerHTML = `${weatherJson.weather[0].description}`;
-                    // console.log(`Temp: ${weatherJson.main.temp}`);
-                    // console.log('weatherJson', weatherJson);
                 });    
             todosLosItems.push(cityContainer);
-                // .then(weatherJson => console.log(weatherJson));   
-                // console.log(city);     
         });
         citiesContainer.append(...todosLosItems);
+        citiesMain.appendChild(citiesContainer);
     })
-
 }
 
 
