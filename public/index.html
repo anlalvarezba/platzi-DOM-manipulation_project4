@@ -44,13 +44,13 @@
           A Simple Weather App
         </h3>
         <p class="mt-4 max-w-2xl text-xl leading-7 text-gray-500 mx-auto">
-          Use this app to know the weather of any city of the world.
+          Use this app to know the weather of any city of the world. If many places have the same name, your search could have a bunch of results. Country and state could be specified for some of them.
         </p>
-        <!-- <form id="form"> -->
-          <input type="text" id="city" placeholder="Enter a city">
+        <div id="form">
+          <input autocomplete="off" type="text" id="city" placeholder="Enter a city">
           <label for="city"></label>
           <input type="button" value="Search" id="submitCity">
-        <!-- </form> -->
+        </div>
         <div id="citiesMain"></div>
       </div>
     </div>

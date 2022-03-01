@@ -3,9 +3,7 @@
  * When you're ready to start on your site, clear the file. Happy hacking!
  **/
 
-console.log('Happy hacking :)')
-
-const limit = 5;
+const limit = 10;
 const APIkey = '0393447d970cee9070f71962da578e9f';
 var latitude;
 var longitude;
@@ -14,6 +12,22 @@ const citiesMain = document.getElementById("citiesMain");
 const form = document.getElementById('form');
 const cityEntered = document.getElementById('city');
 const submitCity = document.getElementById('submitCity');
+
+form.style.height = "120px";
+form.style.marginTop = "20px";
+form.style.display = "flex";
+form.style.flexWrap = "wrap";
+form.style.justifyContent = "center";
+form.style.alignContent = "center";
+
+cityEntered.style.height = "50px";
+submitCity.style.height = "50px";
+cityEntered.style.borderRadius = "15px";
+submitCity.style.borderRadius = "15px";
+cityEntered.style.margin = "5px";
+submitCity.style.margin = "5px";
+submitCity.style.minWidth = "150px";
+cityEntered.style.padding = "5px 10px";
 
 
 submitCity.addEventListener('click', () => {
@@ -82,7 +96,7 @@ function searchWeather(geoUrl){
             fetch(weatherUrl)
                 .then(weatherResponse => weatherResponse.json())
                 .then(weatherJson => {
-                    cityTemp.innerHTML = `Temp: ${weatherJson.main.temp}`;
+                    cityTemp.innerHTML = `Temp: ${weatherJson.main.temp} °C`;
                     weatherImg.src = `http://openweathermap.org/img/wn/${weatherJson.weather[0].icon}@2x.png`
                     weatherDesc.innerHTML = `${weatherJson.weather[0].description}`;
                 });    
